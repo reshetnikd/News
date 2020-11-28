@@ -9,21 +9,27 @@
 /* Begin PBXBuildFile section */
 		3517453125725CE6002191E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3517453025725CE6002191E6 /* AppDelegate.swift */; };
 		3517453325725CE6002191E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3517453225725CE6002191E6 /* SceneDelegate.swift */; };
-		3517453525725CE6002191E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3517453425725CE6002191E6 /* ViewController.swift */; };
 		3517453825725CE6002191E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3517453625725CE6002191E6 /* Main.storyboard */; };
 		3517453A25725CE7002191E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3517453925725CE7002191E6 /* Assets.xcassets */; };
 		3517453D25725CE7002191E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3517453B25725CE7002191E6 /* LaunchScreen.storyboard */; };
+		35174548257274B4002191E6 /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35174547257274B4002191E6 /* Response.swift */; };
+		3517454B257281B5002191E6 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3517454A257281B5002191E6 /* DataManager.swift */; };
+		3517454F25728C1D002191E6 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3517454E25728C1D002191E6 /* MasterViewController.swift */; };
+		3517455225728DB2002191E6 /* ArticleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3517455125728DB2002191E6 /* ArticleTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3517452D25725CE6002191E6 /* News.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = News.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3517453025725CE6002191E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3517453225725CE6002191E6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3517453425725CE6002191E6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3517453725725CE6002191E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3517453925725CE7002191E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3517453C25725CE7002191E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3517453E25725CE7002191E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35174547257274B4002191E6 /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		3517454A257281B5002191E6 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		3517454E25728C1D002191E6 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
+		3517455125728DB2002191E6 /* ArticleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +64,10 @@
 			children = (
 				3517453025725CE6002191E6 /* AppDelegate.swift */,
 				3517453225725CE6002191E6 /* SceneDelegate.swift */,
-				3517453425725CE6002191E6 /* ViewController.swift */,
+				35174547257274B4002191E6 /* Response.swift */,
+				3517454E25728C1D002191E6 /* MasterViewController.swift */,
+				3517455125728DB2002191E6 /* ArticleTableViewCell.swift */,
+				3517454A257281B5002191E6 /* DataManager.swift */,
 				3517453625725CE6002191E6 /* Main.storyboard */,
 				3517453925725CE7002191E6 /* Assets.xcassets */,
 				3517453B25725CE7002191E6 /* LaunchScreen.storyboard */,
@@ -137,8 +146,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3517453525725CE6002191E6 /* ViewController.swift in Sources */,
+				3517454F25728C1D002191E6 /* MasterViewController.swift in Sources */,
+				35174548257274B4002191E6 /* Response.swift in Sources */,
+				3517454B257281B5002191E6 /* DataManager.swift in Sources */,
 				3517453125725CE6002191E6 /* AppDelegate.swift in Sources */,
+				3517455225728DB2002191E6 /* ArticleTableViewCell.swift in Sources */,
 				3517453325725CE6002191E6 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,10 +296,10 @@
 		3517454225725CE7002191E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = News/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -295,17 +307,17 @@
 				PRODUCT_BUNDLE_IDENTIFIER = reshetnikd.News;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		3517454325725CE7002191E6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = News/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -313,7 +325,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = reshetnikd.News;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
