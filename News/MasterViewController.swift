@@ -39,6 +39,10 @@ class MasterViewController: UITableViewController {
 
         // Configure the cell...
         cell.titleLabel.text = articles[indexPath.row].title
+        cell.descriptionLabel.text = articles[indexPath.row].description
+        cell.authorLabel.text = "Author: \(articles[indexPath.row].author!)"
+        cell.sourceLabel.text = "Source: \(articles[indexPath.row].source!.name!)"
+        cell.articleImageView.load(url: URL(string: articles[indexPath.row].urlToImage!)!)
 
         return cell
     }
