@@ -16,6 +16,7 @@
 		3517454B257281B5002191E6 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3517454A257281B5002191E6 /* DataManager.swift */; };
 		3517454F25728C1D002191E6 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3517454E25728C1D002191E6 /* MasterViewController.swift */; };
 		3517455225728DB2002191E6 /* ArticleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3517455125728DB2002191E6 /* ArticleTableViewCell.swift */; };
+		35672F30257408E000C960D1 /* LoadingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35672F2F257408E000C960D1 /* LoadingCell.swift */; };
 		35AED6392573D3AB00EDFD35 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35AED6382573D3AB00EDFD35 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +32,7 @@
 		3517454A257281B5002191E6 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		3517454E25728C1D002191E6 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		3517455125728DB2002191E6 /* ArticleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleTableViewCell.swift; sourceTree = "<group>"; };
+		35672F2F257408E000C960D1 /* LoadingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingCell.swift; sourceTree = "<group>"; };
 		35AED6382573D3AB00EDFD35 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,6 +73,7 @@
 				35AED6382573D3AB00EDFD35 /* DetailViewController.swift */,
 				3517455125728DB2002191E6 /* ArticleTableViewCell.swift */,
 				3517454A257281B5002191E6 /* DataManager.swift */,
+				35672F2F257408E000C960D1 /* LoadingCell.swift */,
 				3517453625725CE6002191E6 /* Main.storyboard */,
 				3517453925725CE7002191E6 /* Assets.xcassets */,
 				3517453B25725CE7002191E6 /* LaunchScreen.storyboard */,
@@ -151,6 +154,7 @@
 			files = (
 				3517454F25728C1D002191E6 /* MasterViewController.swift in Sources */,
 				35174548257274B4002191E6 /* Response.swift in Sources */,
+				35672F30257408E000C960D1 /* LoadingCell.swift in Sources */,
 				3517454B257281B5002191E6 /* DataManager.swift in Sources */,
 				3517453125725CE6002191E6 /* AppDelegate.swift in Sources */,
 				3517455225728DB2002191E6 /* ArticleTableViewCell.swift in Sources */,

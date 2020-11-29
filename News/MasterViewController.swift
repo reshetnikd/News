@@ -9,6 +9,8 @@ import UIKit
 
 class MasterViewController: UITableViewController {
     private let dataManager = DataManager(baseURL: NewsAPI.BaseURL)
+    private var currentPage = 1
+    private var shouldShowLoadingCell = false
     var articles = [Response.Article]()
     var activityIndicatorView = UIActivityIndicatorView(style: .gray)
     var messageLabel = UILabel()
@@ -29,32 +31,35 @@ class MasterViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return articles.count
+        let count = articles.count
+        return shouldShowLoadingCell ? count + 1 : count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ArticleTableViewCell.ReuseIdentifier, for: indexPath) as! ArticleTableViewCell
 
         // Configure the cell...
-        let title = articles[indexPath.row].title ?? "N/A"
-        let description = articles[indexPath.row].description ?? "N/A"
-        let author = articles[indexPath.row].author ?? "N/A"
-        let source = articles[indexPath.row].source?.name ?? "N/A"
-        let urlToImage = URL(string: articles[indexPath.row].urlToImage ?? "https://via.placeholder.com/150")!
-        
-        cell.titleLabel.text = title
-        cell.descriptionLabel.text = description
-        cell.authorLabel.text = "Author: \(author)"
-        cell.sourceLabel.text = "Source: \(source)"
-        cell.articleImageView.load(url: urlToImage)
-
-        return cell
+        if isLoadingIndexPath(indexPath) {
+            return LoadingCell(style: .default, reuseIdentifier: "loading")
+        } else {
+            let title = articles[indexPath.row].title ?? "N/A"
+            let description = articles[indexPath.row].description ?? "N/A"
+            let author = articles[indexPath.row].author ?? "N/A"
+            let source = articles[indexPath.row].source?.name ?? "N/A"
+            let urlToImage = URL(string: articles[indexPath.row].urlToImage ?? "https://via.placeholder.com/150")!
+            
+            cell.titleLabel.text = title
+            cell.descriptionLabel.text = description
+            cell.authorLabel.text = "Author: \(author)"
+            cell.sourceLabel.text = "Source: \(source)"
+            cell.articleImageView.load(url: urlToImage)
+            
+            return cell
+        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -63,15 +68,29 @@ class MasterViewController: UITableViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard isLoadingIndexPath(indexPath) else { return }
+        fetchNextPage()
+    }
+    
     @objc private func refreshNewsData(_ sender: Any) {
         fetchNewsData()
     }
     
+    private func isLoadingIndexPath(_ indexPath: IndexPath) -> Bool {
+        guard shouldShowLoadingCell else { return false }
+        return indexPath.row == self.articles.count
+    }
+    
     private func fetchNewsData() {
-        dataManager.getNewsFor(category: "entertainment", country: "us", completion: { (news, error) in
+        dataManager.getNewsFor(category: "general", country: "us", page: currentPage, completion: { (news, error) in
             DispatchQueue.main.async {
                 if let news = news {
                     self.articles = news.articles!
+                    self.shouldShowLoadingCell = Double(self.currentPage) < (Double(news.totalResults!) / 20)
+                    self.articles.sort { (lhs, rhs) -> Bool in
+                        lhs.publishedAt! > rhs.publishedAt!
+                    }
                 }
                 
                 self.updateView()
@@ -79,6 +98,11 @@ class MasterViewController: UITableViewController {
                 self.removeLoadingScreen()
             }
         })
+    }
+    
+    private func fetchNextPage() {
+        currentPage += 1
+        fetchNewsData()
     }
     
     private func setupView() {

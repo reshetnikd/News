@@ -26,18 +26,19 @@ final class DataManager {
         self.baseURL = baseURL
     }
     
-    func getNewsFor(category: String = "general", country: String = "us", sources: String? = nil, completion: @escaping NewsDataCompletion) {
+    func getNewsFor(category: String = "general", country: String = "us", page: Int, sources: String? = nil, completion: @escaping NewsDataCompletion) {
         let url = baseURL.appendingPathComponent("/v2/top-headlines")
         var componetns = URLComponents(string: url.absoluteString)!
         
         let countryItem = URLQueryItem(name: "country", value: country)
         let categoryItem = URLQueryItem(name: "category", value: category)
+        let pageItem = URLQueryItem(name: "page", value: String(page))
         let apiItem = URLQueryItem(name: "apiKey", value: NewsAPI.APIKey)
         if sources != nil {
             let sourcesItem = URLQueryItem(name: "sources", value: sources)
-            componetns.queryItems = [countryItem, categoryItem, sourcesItem, apiItem]
+            componetns.queryItems = [countryItem, categoryItem, sourcesItem, pageItem, apiItem]
         } else {
-            componetns.queryItems = [countryItem, categoryItem, apiItem]
+            componetns.queryItems = [countryItem, categoryItem, pageItem, apiItem]
         }
         
         URLSession.shared.dataTask(with: componetns.url!, completionHandler: { (data, response, error) in
