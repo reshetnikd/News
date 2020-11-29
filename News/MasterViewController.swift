@@ -8,8 +8,11 @@
 import UIKit
 
 class MasterViewController: UITableViewController {
-    private let dataManager: DataManager = DataManager(baseURL: NewsAPI.BaseURL)
-    var articles: [Response.Article] = []
+    private let dataManager = DataManager(baseURL: NewsAPI.BaseURL)
+    var articles = [Response.Article]()
+    var activityIndicatorView = UIActivityIndicatorView(style: .gray)
+    var messageLabel = UILabel()
+    var loadingView = UIView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +22,7 @@ class MasterViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        setupView()
         fetchNewsData()
     }
 
@@ -38,13 +42,23 @@ class MasterViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: ArticleTableViewCell.ReuseIdentifier, for: indexPath) as! ArticleTableViewCell
 
         // Configure the cell...
-        cell.titleLabel.text = articles[indexPath.row].title
-        cell.descriptionLabel.text = articles[indexPath.row].description
-        cell.authorLabel.text = "Author: \(articles[indexPath.row].author!)"
-        cell.sourceLabel.text = "Source: \(articles[indexPath.row].source!.name!)"
-        cell.articleImageView.load(url: URL(string: articles[indexPath.row].urlToImage!)!)
+        let title = articles[indexPath.row].title ?? "N/A"
+        let description = articles[indexPath.row].description ?? "N/A"
+        let author = articles[indexPath.row].author ?? "N/A"
+        let source = articles[indexPath.row].source?.name ?? "N/A"
+        let urlToImage = URL(string: articles[indexPath.row].urlToImage ?? "https://via.placeholder.com/150")!
+        
+        cell.titleLabel.text = title
+        cell.descriptionLabel.text = description
+        cell.authorLabel.text = "Author: \(author)"
+        cell.sourceLabel.text = "Source: \(source)"
+        cell.articleImageView.load(url: urlToImage)
 
         return cell
+    }
+    
+    @objc private func refreshNewsData(_ sender: Any) {
+        fetchNewsData()
     }
     
     private func fetchNewsData() {
@@ -55,8 +69,15 @@ class MasterViewController: UITableViewController {
                 }
                 
                 self.updateView()
+                self.refreshControl?.endRefreshing()
+                self.removeLoadingScreen()
             }
         })
+    }
+    
+    private func setupView() {
+        setupLoadingScreen()
+        setupRefreshControl()
     }
     
     private func updateView() {
@@ -65,6 +86,40 @@ class MasterViewController: UITableViewController {
         if hasArticles {
             tableView.reloadData()
         }
+    }
+    
+    private func setupRefreshControl() {
+        refreshControl?.tintColor = .gray
+        refreshControl?.attributedTitle = NSAttributedString(string: "Fetching News ...")
+        refreshControl?.addTarget(self, action: #selector(refreshNewsData(_:)), for: .valueChanged)
+    }
+    
+    private func setupLoadingScreen() {
+        let width: CGFloat = 120
+        let height: CGFloat = 30
+        let x = (tableView.frame.width / 2) - (width / 2)
+        let y = (tableView.frame.height / 2) - (height / 2) - (navigationController?.navigationBar.frame.height)!
+        loadingView.frame = CGRect(x: x, y: y, width: width, height: height)
+        
+        messageLabel.textColor = .gray
+        messageLabel.textAlignment = .center
+        messageLabel.text = "Loading..."
+        messageLabel.frame = CGRect(x: 0, y: 0, width: 140, height: 30)
+        
+        activityIndicatorView.style = .gray
+        activityIndicatorView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        activityIndicatorView.startAnimating()
+        
+        loadingView.addSubview(activityIndicatorView)
+        loadingView.addSubview(messageLabel)
+        
+        tableView.addSubview(loadingView)
+    }
+    
+    private func removeLoadingScreen() {
+        activityIndicatorView.stopAnimating()
+        activityIndicatorView.isHidden = true
+        messageLabel.isHidden = true
     }
 
     /*
