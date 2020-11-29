@@ -7,14 +7,18 @@
 
 import UIKit
 
-class MasterViewController: UITableViewController {
+class MasterViewController: UITableViewController, UISearchResultsUpdating {
     private let dataManager = DataManager(baseURL: NewsAPI.BaseURL)
+    private let searchController = UISearchController(searchResultsController: nil)
     private var currentPage = 1
     private var shouldShowLoadingCell = false
     var articles = [Response.Article]()
     var activityIndicatorView = UIActivityIndicatorView(style: .gray)
     var messageLabel = UILabel()
     var loadingView = UIView()
+    var isSearchBarEmpty: Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,8 +86,8 @@ class MasterViewController: UITableViewController {
         return indexPath.row == self.articles.count
     }
     
-    private func fetchNewsData() {
-        dataManager.getNewsFor(category: "general", country: "us", page: currentPage, completion: { (news, error) in
+    private func fetchNewsData(category: String = "general", country: String = "us", query: String? = nil) {
+        dataManager.getNewsFor(category: category, country: country, page: currentPage, completion: { (news, error) in
             DispatchQueue.main.async {
                 if let news = news {
                     self.articles = news.articles!
@@ -108,6 +112,7 @@ class MasterViewController: UITableViewController {
     private func setupView() {
         setupLoadingScreen()
         setupRefreshControl()
+        setupSearchController()
     }
     
     private func updateView() {
@@ -122,6 +127,18 @@ class MasterViewController: UITableViewController {
         refreshControl?.tintColor = .gray
         refreshControl?.attributedTitle = NSAttributedString(string: "Fetching News ...")
         refreshControl?.addTarget(self, action: #selector(refreshNewsData(_:)), for: .valueChanged)
+    }
+    
+    private func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search News"
+        if #available(iOS 11.0, *) {
+            navigationItem.searchController = searchController
+        } else {
+            // Fallback on earlier versions
+        }
+        definesPresentationContext = true
     }
     
     private func setupLoadingScreen() {
@@ -150,6 +167,16 @@ class MasterViewController: UITableViewController {
         activityIndicatorView.stopAnimating()
         activityIndicatorView.isHidden = true
         messageLabel.isHidden = true
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchBar = searchController.searchBar
+        filterContentForSearchText(searchBar.text!)
+    }
+    
+    func filterContentForSearchText(_ searchText: String,
+                                    category: String? = nil) {
+        fetchNewsData(query: searchText.lowercased())
     }
 
     /*
