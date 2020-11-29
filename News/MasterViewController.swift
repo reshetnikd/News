@@ -57,6 +57,12 @@ class MasterViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = DetailViewController()
+        vc.detailItem = articles[indexPath.row]
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     @objc private func refreshNewsData(_ sender: Any) {
         fetchNewsData()
     }
